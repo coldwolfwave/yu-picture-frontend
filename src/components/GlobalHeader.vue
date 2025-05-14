@@ -27,6 +27,12 @@
               </a-space>
               <template #overlay>
                 <a-menu>
+                  <a-menu-item>
+                    <router-link to="/my_space">
+                      <UserOutlined />
+                      我的空间
+                    </router-link>
+                  </a-menu-item>
                   <a-menu-item @click="doLogout">
                     <LogoutOutlined />
                     退出登录
@@ -45,7 +51,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { LogoutOutlined } from '@ant-design/icons-vue'
+import { LogoutOutlined ,UserOutlined} from '@ant-design/icons-vue'
 import { MenuProps, message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
@@ -126,8 +132,8 @@ const doLogout = async () => {
 }
 
 .title {
-  font-size: 28px;
+  font-size: 22px;
   color: black;
-  margin-left: 20px;
+  margin-left: 18px;
 }
 </style>

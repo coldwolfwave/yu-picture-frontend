@@ -37,6 +37,14 @@ export const routes = [
     },
   },
   {
+    key: '/admin/spaceManage',
+    label: '空间管理',
+    title: '空间管理',
+    meta: {
+      access: accessEnum.ADMIN,
+    },
+  },
+  {
     key: 'Github',
     icon: () => h(GithubOutlined),
     label: h('a', { href: 'https://github.com/coldwolfwave', target: '_blank' }, '王禹的GitHub'),

@@ -3,7 +3,11 @@
     <!-- 搜索栏 -->
     <a-flex justify="space-between">
       <h2>图片管理</h2>
-      <a-button type="primary" href="/add_picture" target="_blank">+ 创建图片</a-button>
+      <a-space>
+        <a-button type="primary" href="/add_picture" target="_blank">+ 创建图片</a-button>
+        <a-button type="primary" href="/add_picture/batch" target="_blank" ghost>+ 批量创建图片</a-button>
+      </a-space>
+
     </a-flex>
 
     <a-form layout="inline" :model="searchParams" @finish="doSearch">
@@ -59,7 +63,7 @@
 
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'url'">
-          <a-image :src="record.url" :width="120" />
+          <a-image :src="record.url" :width="100" />
         </template>
         <!-- 标签 -->
         <template v-if="column.dataIndex === 'tags'">
@@ -206,7 +210,9 @@ const doSearch = () => {
 const fetchData = async () => {
   const res = await listPictureByPageUsingPost({
     ...searchParams,
+    nullSpaceId: true,
   })
+
   if (res.data.data) {
     dataList.value = res.data.data.records ?? []
     total.value = res.data.data.total ?? 0
