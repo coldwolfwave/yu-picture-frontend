@@ -16,7 +16,7 @@
         <UrlPictureUpload :picture="picture" :spaceId="spaceId" :onSuccess="onSuccess" />
       </a-tab-pane>
     </a-tabs>
-  
+
     <!--    图片编辑-->
     <div v-if="picture" class="edit-bar">
       <a-space size="middle">
@@ -31,6 +31,7 @@
         :imageUrl="picture?.url"
         :picture="picture"
         :spaceId="spaceId"
+        :space="space"
         :onSuccess="onCropSuccess"
       />
       <image-out-painting
@@ -80,7 +81,7 @@
 
 <script setup lang="ts">
 import PictureUpload from '@/components/PictureUpload.vue'
-import { computed, h, onMounted, reactive, ref } from 'vue'
+import { computed, h, onMounted, reactive, ref, watchEffect } from 'vue'
 import {
   editPictureUsingPost,
   getPictureVoByIdUsingGet,
@@ -93,6 +94,7 @@ import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
 import ImageCropper from '@/components/ImageCropper.vue'
 import { EditOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
 import ImageOutPainting from '@/components/ImageOutPainting.vue'
+import { getSpaceVoByIdUsingGet } from '@/api/spaceController.ts'
 
 const pictureForm = reactive<API.PictureEditRequest>({})
 const uploadType = ref<'file' | 'url'>('file')
@@ -216,6 +218,27 @@ const onImageOutPaintingSuccess = (newPicture: API.PictureVO) => {
 onMounted(() => {
   getOldPicture()
 })
+
+// 获取图片信息
+const space = ref<API.SpaceVO>()
+
+// 获取空间信息
+const fetchSpace = async () => {
+  // 获取数据
+  if (spaceId.value) {
+    const res = await getSpaceVoByIdUsingGet({
+      id: spaceId.value,
+    })
+    if (res.data.code === 0 && res.data.data) {
+      space.value = res.data.data
+    }
+  }
+}
+
+watchEffect(() => {
+  fetchSpace()
+})
+
 </script>
 
 <style scoped>
